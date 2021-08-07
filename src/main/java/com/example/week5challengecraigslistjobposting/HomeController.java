@@ -84,7 +84,10 @@ public class HomeController {
     }
 
     @PostMapping("/confirmjob")
-    public String processJobForm(@Valid Job job, BindingResult result){
+    public String processJobForm(@Valid Job job, BindingResult result, Principal principal, Model model){
+        String username = principal.getName();
+        model.addAttribute("username", username);
+
         if(result.hasErrors()){
             return "addjob";
         }else{
@@ -124,10 +127,19 @@ public class HomeController {
         return "delete";
     }
 
+    @RequestMapping("/job/{id}")
+    public String JobDetail(@PathVariable("id") long id, Model model, Principal principal){
+        String username = principal.getName();
+        model.addAttribute("username", username);
 
-
-
-
+        for (Job job: jobs){
+            if(id == job.getId()){
+                model.addAttribute("job", job);
+                break;
+            }
+        }
+        return "confirmjob";
+    }
 
 
 

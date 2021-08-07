@@ -35,8 +35,14 @@
             <td>[[${job.postedDate}]]</td>
             <td>[[${job.author}]]</td>
             <td>[[${job.phone}]]</td>
-            <td><a th:href="@{/update/{id}(id=${job.id})}">Update</a></td>
-            <td><a th:href="@{/delete/{id}(id=${job.id})}">Delete</a></td>
+            <td th:if="${job.getAuthor() == username}">
+                <a th:href="@{/update/{id}(id=${job.id})}">Update</a>
+                <a th:href="@{/delete/{id}(id=${job.id})}">Delete</a>
+            </td>
+            <td th:unless="${job.getAuthor() == username}">
+                Author name is not matching! Not allowed to update/delete jobs.
+            <td>
+
         </tr>
         </tbody>
     </table>
